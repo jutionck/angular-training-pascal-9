@@ -21,3 +21,33 @@ body {
   color: #fff;
 }
 
+.line {
+  width: 40px;
+  height: 5px;
+  background-color: $enigma-color;
+  margin: 0 auto;
+}
+
+.box-shadow,
+.card-blog,
+.work-box,
+.paralax-mf {
+  box-shadow: 0 13px 8px -10px rgba(0, 0, 0, 0.1);
+}
+
+.sect-pt4 {
+  padding-top: 4rem;
+}
+
+.ico-circle {
+  height: 100px;
+  width: 100px;
+  font-size: 2rem;
+  border-radius: 50%;
+  line-height: 1.55;
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: 0 0 0 10px #0078ff;
+  display: block;
+}
+

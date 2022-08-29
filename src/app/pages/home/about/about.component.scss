@@ -1,4 +1,5 @@
-.about {
+
+.about .box-shadow-full {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
@@ -6,6 +7,7 @@
 .about-title {
   font-size: 2rem;
 }
+
 .about-title::before {
   content: "";
   position: absolute;
@@ -26,4 +28,19 @@
 
 .skill .progress {
   margin: 0.5rem 0 1.2rem 0;
+}
+
+.box-shadow-full {
+  padding: 3rem 1.25rem;
+  position: relative;
+  background-color: #fff;
+  margin-bottom: 3rem;
+  z-index: 2;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+  .box-shadow-full {
+    padding: 3rem;
+  }
 }

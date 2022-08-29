@@ -4,6 +4,7 @@ import { HeroComponent } from './hero/hero.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home.component';
 import { ServiceComponent } from './service/service.component';
+import { PortofolioComponent } from './portofolio/portofolio.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { ServiceComponent } from './service/service.component';
     HeroComponent,
     AboutComponent,
     ServiceComponent,
+    PortofolioComponent,
   ],
   imports: [
     CommonModule
