@@ -1,0 +1,17 @@
+$enigma-primary-color: #233d90;
+$primary-color: #42a5f5;
+
+footer {
+  background-color: $enigma-primary-color;
+  width: 100%;
+  text-align: center;
+  color: $primary-color;
+  bottom: 0;
+  padding: 15px;
+  margin-top: 50px;
+}
+
+footer a {
+  text-decoration: none;
+  color: #fff;
+}

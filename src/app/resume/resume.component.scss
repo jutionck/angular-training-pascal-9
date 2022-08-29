@@ -1,0 +1,10 @@
+section {
+  display: flex;
+}
+
+section::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
