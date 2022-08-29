@@ -1,0 +1,29 @@
+.about {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.about-title {
+  font-size: 2rem;
+}
+.about-title::before {
+  content: "";
+  position: absolute;
+  height: 3px;
+  background-color: #233d90;
+  width: 100px;
+  bottom: -8px;
+}
+
+.about p {
+  font-size: 1.25rem;
+}
+
+.skill p {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.skill .progress {
+  margin: 0.5rem 0 1.2rem 0;
+}

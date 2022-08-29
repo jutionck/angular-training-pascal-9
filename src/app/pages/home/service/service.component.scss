@@ -1,0 +1,44 @@
+$enigma-color: #233d90;
+
+.service {
+  padding-bottom: 4rem;
+}
+
+.service h2 {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.service p {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.line {
+  width: 40px;
+  height: 5px;
+  background-color: $enigma-color;
+  margin: 0 auto;
+}
+
+.service-card {
+  border-style: none;
+  border-radius: 1rem;
+  padding: 2.5rem 1.3rem;
+  margin-top: 3rem;
+  text-align: center;
+  box-shadow: 0 13px 8px -10px rgb(0 0 0 / 10%);
+}
+
+.service-ico {
+  font-size: 4rem;
+  color: $enigma-color;
+}
+
+.service-content h2 {
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
