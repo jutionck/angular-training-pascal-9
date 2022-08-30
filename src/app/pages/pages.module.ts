@@ -4,10 +4,12 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './home/about/about.component';
 import { HomeModule } from './home/home.module';
 import { PagesComponent } from './pages.component';
+import { TodosComponent } from './todos/todos.component';
 
 @NgModule({
   declarations: [
-    PagesComponent
+    PagesComponent,
+    TodosComponent
   ],
   imports: [
     CommonModule,

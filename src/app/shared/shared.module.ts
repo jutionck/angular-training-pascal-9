@@ -4,6 +4,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RouterModule } from '@angular/router';
+import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 const components = [
   HeaderComponent,
@@ -12,11 +13,12 @@ const components = [
 ]
 
 @NgModule({
-  declarations: [ ...components ],
+  declarations: [...components],
   imports: [
     CommonModule,
     RouterModule,
+    ScrollToModule.forRoot()
   ],
-  exports: [ ...components ]
+  exports: [...components]
 })
 export class SharedModule { }
