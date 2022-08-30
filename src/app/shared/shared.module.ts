@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { ScrollDirective } from './directive/scroll/scroll.directive';
 
 const components = [
   HeaderComponent,
@@ -10,7 +9,7 @@ const components = [
 ]
 
 @NgModule({
-  declarations: [ ...components, ScrollDirective ],
+  declarations: [ ...components ],
   imports: [
     CommonModule
   ],
