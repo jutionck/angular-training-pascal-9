@@ -8,15 +8,7 @@ import { NotFoundComponent } from "./shared/components/not-found/not-found.compo
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-  },
-  {
-    path: 'resume',
-    component: ResumeComponent
-  },
-  {
-    path: 'todos',
-    component: TodosComponent
+    loadChildren: () => import('./pages/pages.module').then((m) => m.PagesModule)
   },
   {
     path: '**',
