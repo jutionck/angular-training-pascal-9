@@ -8,10 +8,10 @@
         </div>
       </div>
       <div class="col-md-6 col-sm-12 mt-3">
-        <app-todo-list></app-todo-list>
+        <app-todo-list [todos]="todos"></app-todo-list>
       </div>
       <div class="col-md-6 col-sm-12 mt-3">
-        <app-todo-form></app-todo-form>
+        <app-todo-form (saveTodo)="onSaveTodo($event)"></app-todo-form>
       </div>
     </div>
   </div>
