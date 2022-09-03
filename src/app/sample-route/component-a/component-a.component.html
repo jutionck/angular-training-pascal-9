@@ -1,18 +1,3 @@
 <h1>Component A</h1>
-<a class="btn btn-outline-primary" routerLink="/component-b"
-  >Go To Component B</a
->
-<div class="row">
-  <div class="col-md-6">
-    <div class="list-group mt-5">
-      <a routerLink="/component-a/child-a" class="list-group-item list-group-item-action"
-        >Child A</a
-      >
-      <a routerLink="/component-a/child-b" class="list-group-item list-group-item-action"
-        >Child B</a
-      >
-    </div>
-  </div>
-</div>
-
-<router-outlet></router-outlet>
+<h2>{{ counter }}</h2>
+<app-child-a [image]="image" (result)="setCounter($event)"></app-child-a>
