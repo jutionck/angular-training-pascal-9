@@ -25,5 +25,4 @@ export class TodoFormComponent implements OnInit {
     this.saveTodo.emit(this.todoForm.value);
     this.todoForm.reset();
   }
-
 }
