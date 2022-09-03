@@ -13,12 +13,12 @@ const routes: Routes = [
     component: ResumeComponent
   },
   {
-    path: 'demo/todos',
-    component: TodosComponent
-  },
-  {
     path: 'demo/anime',
     loadChildren: () => import('./anime/anime.module').then(m => m.AnimeModule)
+  },
+  {
+    path: 'demo/todos',
+    loadChildren: () => import('./todos/todos.module').then(m => m.TodosModule)
   }
 ];
 
