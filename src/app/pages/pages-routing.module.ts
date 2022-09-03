@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'demo/todos',
     component: TodosComponent
+  },
+  {
+    path: 'demo/anime',
+    loadChildren: () => import('./anime/anime.module').then(m => m.AnimeModule)
   }
 ];
 
