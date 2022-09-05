@@ -71,6 +71,7 @@ export class TodosComponent implements OnInit {
   }
 
   onDeleteTodo(todo: Todo): void {
+    const idx = this.todos.indexOf(todo);
     if (todo.isDone) {
       Swal.fire({
         icon: 'error',
@@ -93,7 +94,7 @@ export class TodosComponent implements OnInit {
             'Your file has been deleted.',
             'success'
           );
-          this.todos.splice(0, 1);
+          this.todos.splice(idx, 1);
           sessionStorage.setItem('todos', JSON.stringify(this.todos));
         }
       });

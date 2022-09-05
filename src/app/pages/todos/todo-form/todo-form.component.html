@@ -7,7 +7,7 @@
           <input
             type="checkbox"
             class="form-check-input"
-            formControlName="isDone"
+            formControlName="{{ field.IS_DONE }}"
           />
         </div>
         <input
@@ -15,7 +15,7 @@
           class="form-control"
           placeholder="Todo"
           aria-label="Todo"
-          formControlName="name"
+          formControlName="{{ field.NAME }}"
           required
         />
         <button

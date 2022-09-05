@@ -30,8 +30,10 @@ export class TodoFormComponent implements OnInit, OnChanges {
   }
 
   onSubmitTodo(): void {
-    this.todoChange.emit(this.todoForm.value);
-    this.todoForm.reset();
+    if (this.todoForm.valid) {
+      this.todoChange.emit(this.todoForm.value);
+      this.todoForm.reset();
+    }
   }
 
   setFormValue(): void {
