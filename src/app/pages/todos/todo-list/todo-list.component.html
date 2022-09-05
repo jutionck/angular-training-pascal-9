@@ -9,11 +9,24 @@
           id="{{ todo.id }}_checkbox"
           [value]="todo.id"
           [checked]="todo.isDone"
+          (click)="onCheckTodo(todo)"
         />
         &nbsp;
         <label for="{{ todo.id }}_checkbox" class="form-check-label">
           {{ todo.name }}
         </label>
+        <button
+          class="btn btn-link btn-sm float-end"
+          (click)="onDeleteTodo(todo)"
+        >
+          <i class="bi bi-trash" style="font-size: 1.2rem"></i>
+        </button>
+        <button
+          class="btn btn-link btn-sm float-end"
+          (click)="onSelectTodo(todo)"
+        >
+          <i class="bi bi-pencil-square" style="font-size: 1.2rem"></i>
+        </button>
       </div>
     </li>
   </ul>
