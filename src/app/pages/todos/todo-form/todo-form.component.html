@@ -12,7 +12,7 @@
         </div>
         <input
           type="text"
-          class="form-control {{ isFieldValid('name') }}"
+          class="form-control"
           placeholder="Todo"
           aria-label="Todo"
           formControlName="name"
@@ -26,16 +26,11 @@
         >
           ADD
         </button>
-        <div
-          id="validationServer03Feedback"
-          validation-message
-          [control]="todoForm.controls['name']"
-          [label]="'todo name'"
-          class="invalid-feedback"
-        >
-          Please provide a valid city.
-        </div>
       </div>
+      <app-validation-message
+        [control]="todoForm.get(field.NAME)"
+        [field]="field.NAME"
+      ></app-validation-message>
     </form>
   </div>
 </div>

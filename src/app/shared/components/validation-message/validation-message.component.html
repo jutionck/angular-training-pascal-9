@@ -1,3 +1,5 @@
-<ng-container *ngIf="isFieldValid">
-  <span [innerHTML]="displayError()"></span>
-</ng-container>
+<div *ngIf="hasError()" class="form-text text-danger">
+  <span *ngFor="let key of getErrors()" class="d-block">
+    {{ getMessage(key) }}
+  </span>
+</div>

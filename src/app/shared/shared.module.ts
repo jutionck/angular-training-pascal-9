@@ -8,6 +8,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { ScrollDirective } from './directives/scroll/scroll.directive';
 import { BsButtonDirective } from './directives/bs-button/bs-button.directive';
 import { ValidationMessageComponent } from './components/validation-message/validation-message.component';
+import { StringUtil } from './utils/string.util';
 
 const components = [
   HeaderComponent,
@@ -25,6 +26,9 @@ const components = [
     RouterModule,
     ScrollToModule.forRoot()
   ],
-  exports: [...components]
+  exports: [...components],
+  providers: [
+    StringUtil
+  ]
 })
 export class SharedModule { }

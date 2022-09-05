@@ -1,47 +1,49 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
-
-const validateMessage = {
-  'required': 'Bagian %s wajib diisi',
-  'minlength': 'Bagian %s minimal harus lebih panjang dari %s karakter',
-}
+import { Component, Input } from '@angular/core';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { VALIDATION_MESSAGES as messages } from '../../messages/validation.message';
+import { StringUtil } from '../../utils/string.util';
 
 @Component({
-  selector: 'app-validation-message, [validation-message]',
+  selector: 'app-validation-message',
   templateUrl: './validation-message.component.html',
   styleUrls: ['./validation-message.component.scss']
 })
-export class ValidationMessageComponent implements OnInit {
-  @Input() control!: AbstractControl;
-  @Input() label: string = '';
+export class ValidationMessageComponent {
+  @Input() control?: AbstractControl | null;
+  @Input() field?: string | null;
 
+  constructor(private readonly stringFormat: StringUtil) { }
 
-  messages: { [key: string]: string } = validateMessage;
-  isFieldValid(): boolean {
-    return this.control.invalid && this.control.touched;
+  hasError(): boolean {
+    return (this.control && this.control.invalid && (this.control.dirty || this.control.touched)) as boolean;
   }
 
-  displayError(): string {
-    let message: string = '';
-    const errors = this.control.errors;
-
-    for (let key in errors) {
-      const error: string[] = errors[key] ? Object.values(errors[key]) : [];
-      const params: any[] = [this.label].concat(error);
-      const valMessage: string = this.messages[key];
-
-      message += `<p class="m-0">${this.formatString(valMessage, params)}</p>`
+  getErrors(): string[] {
+    if (this.control) {
+      return Object.keys(this.control.errors as ValidationErrors);
+    } else {
+      return [];
     }
-    return message;
   }
 
+  getErrorValues(key: string): string[] {
+    if (this.control && this.control.errors) {
+      const error: ValidationErrors = this.control.errors[key] || {};
 
-  private formatString(valMessage: string, params: any[]): string {
-    let i = 0;
-    return (valMessage ? valMessage.replace(/%s/g, () => params.slice(i, ++i) as any) : '')
+      if (Object.values(error).length > 0) {
+        return Object.values(error);
+      }
+    }
+
+    return [];
   }
 
-  ngOnInit(): void {
+  getMessage(key: string): string {
+    const text: string = messages[key.toLowerCase()] || null;
+    const params = this.getErrorValues(key);
+
+    return text ? this.stringFormat.format(text, this.field, ...params) as string : '';
   }
+
 
 }
