@@ -12,15 +12,29 @@
         </div>
         <input
           type="text"
-          class="form-control"
+          class="form-control {{ isFieldValid('name') }}"
           placeholder="Todo"
           aria-label="Todo"
           formControlName="name"
           required
         />
-        <button class="btn btn-outline-primary" [disabled]="!todoForm.valid">
+        <button
+          appBsButton
+          color="success"
+          size="md"
+          [disabled]="!todoForm.valid"
+        >
           ADD
         </button>
+        <div
+          id="validationServer03Feedback"
+          validation-message
+          [control]="todoForm.controls['name']"
+          [label]="'todo name'"
+          class="invalid-feedback"
+        >
+          Please provide a valid city.
+        </div>
       </div>
     </form>
   </div>

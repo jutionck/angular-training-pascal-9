@@ -1,5 +1,6 @@
 export interface Anime {
   id: number,
   name: string,
-  cover: string
+  cover: string,
+  isFavorite?: boolean
 }

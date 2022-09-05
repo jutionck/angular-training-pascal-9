@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TodoField } from '../model/todo-field.model';
 import { Todo } from '../model/todo.model';
 
@@ -11,12 +11,12 @@ import { Todo } from '../model/todo.model';
 export class TodoFormComponent implements OnInit, OnChanges {
   @Input() todo?: Todo;
   @Output() todoChange: EventEmitter<Todo> = new EventEmitter<Todo>();
-  // @Output() saveTodo: EventEmitter<Todo> = new EventEmitter<Todo>();
+  field: typeof TodoField = TodoField;
   todoForm!: FormGroup;
   buildForm(): void {
     this.todoForm = new FormGroup({
       [TodoField.ID]: new FormControl(null),
-      [TodoField.NAME]: new FormControl(null, [Validators.required, Validators.minLength(4)]),
+      [TodoField.NAME]: new FormControl(null, [Validators.required, Validators.minLength(10)]),
       [TodoField.IS_DONE]: new FormControl(false),
     })
   }
@@ -44,4 +44,21 @@ export class TodoFormComponent implements OnInit, OnChanges {
       this.todoForm.reset()
     }
   }
+
+  isFieldValid(fieldName: string, parent?: AbstractControl): string {
+    const control: AbstractControl = this.todoForm.get(fieldName) as AbstractControl;
+
+    if (parent) {
+      parent = control;
+    }
+
+    if (control && control.touched && control.invalid) {
+      return 'is-invalid';
+    } else if (control && control.valid) {
+      return 'is-valid';
+    } else {
+      return '';
+    }
+  }
+
 }
