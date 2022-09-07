@@ -1,7 +1,7 @@
 <section id="todo" class="todo sect-pt4 mt-5">
   <div class="container">
     <div
-      class="mb-5 d-flex flex-column flex-md-row w-100 justify-content-between"
+      class="mb-3 d-flex flex-column flex-md-row w-100 justify-content-between"
     >
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -22,15 +22,10 @@
         </div>
       </div>
       <div class="col-md-6 col-sm-12 mt-3">
-        <app-todo-list
-          [todos]="todos"
-          (toggleTodo)="onToggleTodo($event)"
-          (deleteTodo)="onDeleteTodo($event)"
-          (editTodo)="onEditTodo($event)"
-        ></app-todo-list>
+        <app-todo-list></app-todo-list>
       </div>
       <div class="col-md-6 col-sm-12 mt-3">
-        <app-todo-form [(todo)]="todo"></app-todo-form>
+        <app-todo-form></app-todo-form>
       </div>
     </div>
   </div>

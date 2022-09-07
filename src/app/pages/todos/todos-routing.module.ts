@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: '',
     component: TodosComponent
+  },
+  {
+    path: ':id',
+    component: TodosComponent
   }
 ];
 

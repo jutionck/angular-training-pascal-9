@@ -1,33 +1,38 @@
 <h3>{{ title }}</h3>
 <div class="card">
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let todo of todos">
-      <div class="form-check">
-        <input
-          type="checkbox"
-          class="form-check-input"
-          id="{{ todo.id }}_checkbox"
-          [value]="todo.id"
-          [checked]="todo.isDone"
-          (click)="onCheckTodo(todo)"
-        />
-        &nbsp;
-        <label for="{{ todo.id }}_checkbox" class="form-check-label">
-          {{ todo.name }}
-        </label>
-        <button
-          class="btn btn-link btn-sm float-end"
-          (click)="onDeleteTodo(todo)"
-        >
-          <i class="bi bi-trash" style="font-size: 1.2rem"></i>
-        </button>
-        <button
-          class="btn btn-link btn-sm float-end"
-          (click)="onSelectTodo(todo)"
-        >
-          <i class="bi bi-pencil-square" style="font-size: 1.2rem"></i>
-        </button>
-      </div>
-    </li>
+    <ng-container *ngFor="let todo of todos">
+      <li class="list-group-item">
+        <div class="form-check">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            id="{{ todo.id }}_checkbox"
+            [value]="todo.id"
+            [checked]="todo.isDone"
+            (click)="onCheckTodo(todo)"
+          />
+          &nbsp;
+          <label for="{{ todo.id }}_checkbox" class="form-check-label">
+            {{ todo.name }}
+          </label>
+          <button
+            class="btn btn-link btn-sm float-end"
+            (click)="onDeleteTodo(todo)"
+          >
+            <i class="bi bi-trash" style="font-size: 1.2rem"></i>
+          </button>
+          <button
+            class="btn btn-link btn-sm float-end"
+            routerLink="/demo/todos/{{ todo.id }}"
+          >
+            <i class="bi bi-pencil-square" style="font-size: 1.2rem"></i>
+          </button>
+        </div>
+      </li>
+    </ng-container>
+    <p class="todo-list" *ngIf="!todos || (todos && todos.length === 0)">
+      Data todo kosong
+    </p>
   </ul>
 </div>
