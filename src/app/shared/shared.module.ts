@@ -9,6 +9,7 @@ import { ScrollDirective } from './directives/scroll/scroll.directive';
 import { BsButtonDirective } from './directives/bs-button/bs-button.directive';
 import { ValidationMessageComponent } from './components/validation-message/validation-message.component';
 import { StringUtil } from './utils/string.util';
+import { DateCustomPipe } from './pipes/date-custom/date-custom.pipe';
 
 const components = [
   HeaderComponent,
@@ -17,6 +18,7 @@ const components = [
   ScrollDirective,
   BsButtonDirective,
   ValidationMessageComponent,
+  DateCustomPipe
 ]
 
 @NgModule({
