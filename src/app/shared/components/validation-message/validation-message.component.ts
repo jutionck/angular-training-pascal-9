@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { VALIDATION_MESSAGES as messages } from '../../messages/validation.message';
-import { StringUtil } from '../../utils/string.util';
+import { StringFormatService } from '../../services/string-format.service';
 
 @Component({
   selector: 'app-validation-message',
@@ -12,7 +12,9 @@ export class ValidationMessageComponent {
   @Input() control?: AbstractControl | null;
   @Input() field?: string | null;
 
-  constructor(private readonly stringFormat: StringUtil) { }
+  constructor(
+    private readonly stringFormatService: StringFormatService
+  ) { }
 
   hasError(): boolean {
     return (this.control && this.control.invalid && (this.control.dirty || this.control.touched)) as boolean;
@@ -42,7 +44,7 @@ export class ValidationMessageComponent {
     const text: string = messages[key.toLowerCase()] || null;
     const params = this.getErrorValues(key);
 
-    return text ? this.stringFormat.format(text, this.field, ...params) as string : '';
+    return text ? this.stringFormatService.format(text, this.field, ...params) as string : '';
   }
 
 

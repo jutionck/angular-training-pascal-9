@@ -1,6 +1,15 @@
 <h3>Form</h3>
 <div class="card">
   <div class="card-body">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      Todo <strong>todo name</strong> berhasil di tambahkan.
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
     <form [formGroup]="todoForm" (ngSubmit)="onSubmitTodo()">
       <div class="input-group mb-3">
         <div class="input-group-text">

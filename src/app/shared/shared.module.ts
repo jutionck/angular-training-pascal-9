@@ -8,7 +8,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { ScrollDirective } from './directives/scroll/scroll.directive';
 import { BsButtonDirective } from './directives/bs-button/bs-button.directive';
 import { ValidationMessageComponent } from './components/validation-message/validation-message.component';
-import { StringUtil } from './utils/string.util';
+import { StringFormatService } from './services/string-format.service';
 import { DateCustomPipe } from './pipes/date-custom/date-custom.pipe';
 
 const components = [
@@ -29,8 +29,6 @@ const components = [
     ScrollToModule.forRoot()
   ],
   exports: [...components],
-  providers: [
-    StringUtil
-  ]
+  providers: [StringFormatService]
 })
 export class SharedModule { }

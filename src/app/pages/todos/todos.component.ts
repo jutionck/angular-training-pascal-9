@@ -55,11 +55,23 @@ export class TodosComponent implements OnInit {
         if (item.id === todo.id) {
           item = todo
         }
+        Swal.fire({
+          icon: 'success',
+          title: `Todo ${todo.name} telah di ubah!`,
+          showConfirmButton: false,
+          timer: 1500
+        })
         return item;
       });
       sessionStorage.setItem('todos', JSON.stringify(this.todos));
     } else {
       todo.id = this.todos.length + 1;
+      Swal.fire({
+        icon: 'success',
+        title: `Todo ${todo.name} telah di tambah!`,
+        showConfirmButton: false,
+        timer: 1500
+      })
       this.todos.push(todo);
       sessionStorage.setItem('todos', JSON.stringify(this.todos));
     }

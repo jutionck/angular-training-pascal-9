@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 import { TodoField } from '../model/todo-field.model';
 import { Todo } from '../model/todo.model';
 
@@ -16,7 +17,7 @@ export class TodoFormComponent implements OnInit, OnChanges {
   buildForm(): void {
     this.todoForm = new FormGroup({
       [TodoField.ID]: new FormControl(null),
-      [TodoField.NAME]: new FormControl(null, [Validators.required, Validators.minLength(10)]),
+      [TodoField.NAME]: new FormControl(null, [Validators.required, Validators.minLength(4)]),
       [TodoField.IS_DONE]: new FormControl(false),
     })
   }
