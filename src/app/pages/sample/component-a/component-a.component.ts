@@ -7,12 +7,19 @@ import { Image } from './image.model';
   styleUrls: ['./component-a.component.scss']
 })
 export class ComponentAComponent implements OnInit {
-
-  constructor() { }
-
+  toggle: boolean = false;
+  constructor() {
+    console.log('constructor.ComponentAComponent.called');
+  }
   ngOnInit(): void {
+    console.log('ngOnInit.ComponentAComponent.called');
   }
 
+  isToggleButton(): void {
+    console.log('toggle before:', this.toggle);
+    this.toggle = !this.toggle;
+    console.log('toggle after:', this.toggle);
+  }
   counter: number = 0;
   setCounter(val: number): void {
     this.counter = val;

@@ -9,10 +9,13 @@
             class="btn btn-outline-primary"
             >Component B</a
           >
-          <button class="btn btn-outline-danger">Toggle Child</button>
+          <button class="btn btn-outline-danger" (click)="isToggleButton()">
+            Toggle Child
+          </button>
         </div>
-
-        <app-child-a></app-child-a>
+        <ng-container *ngIf="toggle">
+          <app-child-a></app-child-a>
+        </ng-container>
       </div>
     </div>
   </div>
