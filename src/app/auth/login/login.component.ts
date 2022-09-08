@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs';
 import Swal from 'sweetalert2';
 import { LoginField } from '../models/login-field.model';
 import { LoginToken } from '../models/login.model';
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
   showPassword: boolean = false;
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
   ) { }
 
   buildForm(): void {
@@ -39,7 +41,11 @@ export class LoginComponent implements OnInit {
     const payload = this.loginForm.value;
     const token: LoginToken | null = this.authService.login(payload);
     if (token) {
-      this.router.navigateByUrl('')
+      this.activatedRoute.queryParams
+        .pipe(map((params) => params['next'] || null))
+        .subscribe((next: string = '') => {
+          this.router.navigateByUrl(next).finally();
+        });
     } else {
       Swal.fire({
         icon: 'error',
