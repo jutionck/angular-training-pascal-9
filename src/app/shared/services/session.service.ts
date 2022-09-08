@@ -13,4 +13,8 @@ export class SessionService {
   set(key: string, value: string): void {
     this.storage.setItem(key, value)
   }
+
+  remove(key: string): void {
+    this.storage.removeItem(key);
+  }
 }

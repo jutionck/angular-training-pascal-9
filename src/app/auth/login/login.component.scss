@@ -1,0 +1,36 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12%;
+}
+
+.container {
+  width:450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  border-style: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.card-title h3 {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.5rem;
+}
+
+.btn-login {
+  margin-top: 20px;
+}
+
+.btn-login-footer {
+  text-align: center;
+  color: gray;
+}
+
+.btn-login-footer a {
+  text-decoration: none;
+}
