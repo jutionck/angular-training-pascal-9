@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observer } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Todo } from '../model/todo.model';
 import { TodosService } from '../services/todos.service';
@@ -11,6 +12,7 @@ import { TodosService } from '../services/todos.service';
 export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
   title: string = 'List';
+  subcriber?: Observer<any>;
   constructor(
     private readonly todoService: TodosService
   ) { }
@@ -20,11 +22,16 @@ export class TodoListComponent implements OnInit {
   }
 
   loadTodo(): void {
-    this.todos = this.todoService.list()
+    this.subcriber = {
+      next: (todos) => this.todos = todos,
+      error: console.error,
+      complete: () => { }
+    }
+    this.todoService.list().subscribe(this.subcriber);
   }
 
   onCheckTodo(todo: Todo): void {
-    this.todoService.checked(todo);
+    this.todoService.checked(todo).subscribe();
   }
 
   onDeleteTodo(todo: Todo): void {
@@ -50,7 +57,7 @@ export class TodoListComponent implements OnInit {
             'Your file has been deleted.',
             'success'
           );
-          this.todoService.remove(todo.id);
+          this.todoService.remove(todo.id).subscribe();
         }
       });
     }

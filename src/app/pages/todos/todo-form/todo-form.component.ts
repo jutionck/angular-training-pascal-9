@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map, Observer } from 'rxjs';
 import Swal from 'sweetalert2';
 import { TodoField } from '../model/todo-field.model';
 import { Todo } from '../model/todo.model';
@@ -16,6 +16,7 @@ const TODO_URL = '/demo/todos';
 export class TodoFormComponent implements OnInit {
   todo?: Todo;
   id?: number; // bisa di pake untuk sweetAlert2
+  subcriber?: Observer<any>;
   field: typeof TodoField = TodoField;
   todoForm: FormGroup = new FormGroup({
     [TodoField.ID]: new FormControl(null),
@@ -35,7 +36,9 @@ export class TodoFormComponent implements OnInit {
         return params['id'] ? +params['id'] : null
       })
     ).subscribe((id: any) => {
-      this.todo = this.todoService.get(id);
+      this.todoService.get(id).subscribe((todo) => {
+        this.todo = todo
+      })
       this.id = id; // pengecekan sweetAlert2
       this.setFormValue();
     });
@@ -43,7 +46,10 @@ export class TodoFormComponent implements OnInit {
 
   onSubmitTodo(): void {
     const todo: Todo = this.todoForm.value;
-    this.todoService.save(todo)
+    if (!todo.isDone) {
+      todo.isDone = false;
+    }
+    this.todoService.save(todo).subscribe();
     if (this.id) {
       Swal.fire({
         icon: 'success',

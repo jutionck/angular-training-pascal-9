@@ -39,20 +39,28 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     const payload = this.loginForm.value;
-    const token: LoginToken | null = this.authService.login(payload);
-    if (token) {
-      this.activatedRoute.queryParams
-        .pipe(map((params) => params['next'] || null))
-        .subscribe((next: string = '') => {
-          this.router.navigateByUrl(next).finally();
-        });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Email atau Password salah',
+    this.authService.login(payload).subscribe({
+      next: (token: LoginToken | null) => {
+        if (token) {
+          this.handleLogin(token)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Email atau Password salah',
+          });
+        }
+      },
+      error: (error) => console.error(error.message)
+    })
+  }
+
+  private handleLogin(token: LoginToken): void {
+    this.activatedRoute.queryParams
+      .pipe(map((params) => params['next'] || null))
+      .subscribe((next: string = '') => {
+        this.router.navigateByUrl(next).finally();
       });
-    }
   }
 
   isFieldValid(loginField: LoginField): string {
