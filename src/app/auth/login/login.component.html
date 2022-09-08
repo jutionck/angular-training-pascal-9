@@ -48,7 +48,11 @@
                 ></app-validation-message>
               </div>
               <div class="d-grid gap-2 btn-login">
-                <button class="btn btn-outline-primary" type="submit">
+                <button
+                  class="btn btn-outline-primary"
+                  type="submit"
+                  [disabled]="!loginForm.valid"
+                >
                   LOGIN
                 </button>
               </div>
