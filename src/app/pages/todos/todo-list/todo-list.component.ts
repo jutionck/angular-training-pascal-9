@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observer } from 'rxjs';
+import { ApiResponse } from 'src/app/shared/models/response.model';
 import Swal from 'sweetalert2';
 import { Todo } from '../model/todo.model';
 import { TodosService } from '../services/todos.service';
@@ -12,22 +13,30 @@ import { TodosService } from '../services/todos.service';
 export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
   title: string = 'List';
+  isLoading: boolean = false;
   subcriber?: Observer<any>;
   constructor(
     private readonly todoService: TodosService
   ) { }
 
   ngOnInit(): void {
-    this.loadTodo()
+    this.loadTodo();
+    this.todoService.notify().subscribe((notify: boolean) => {
+      console.log('notify:', notify);
+      if (notify) this.loadTodo();
+    })
   }
 
   loadTodo(): void {
-    this.subcriber = {
-      next: (todos) => this.todos = todos,
-      error: console.error,
-      complete: () => { }
-    }
-    this.todoService.list().subscribe(this.subcriber);
+    this.isLoading = true;
+    this.todoService.list()
+      .subscribe({
+        next: (response: ApiResponse<Todo[]>) => {
+          this.isLoading = false;
+          this.todos = response.data
+        },
+        error: console.error,
+      });
   }
 
   onCheckTodo(todo: Todo): void {
@@ -35,7 +44,7 @@ export class TodoListComponent implements OnInit {
   }
 
   onDeleteTodo(todo: Todo): void {
-    if (todo.isDone) {
+    if (todo.isCompleted) {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',

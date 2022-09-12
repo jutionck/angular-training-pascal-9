@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { map, Observer } from 'rxjs';
+import { ApiResponse } from 'src/app/shared/models/response.model';
 import Swal from 'sweetalert2';
 import { TodoField } from '../model/todo-field.model';
 import { Todo } from '../model/todo.model';
@@ -14,14 +15,13 @@ const TODO_URL = '/demo/todos';
   styleUrls: ['./todo-form.component.scss']
 })
 export class TodoFormComponent implements OnInit {
-  todo?: Todo;
-  id?: number; // bisa di pake untuk sweetAlert2
+  id?: string; // bisa di pake untuk sweetAlert2
   subcriber?: Observer<any>;
   field: typeof TodoField = TodoField;
   todoForm: FormGroup = new FormGroup({
     [TodoField.ID]: new FormControl(null),
     [TodoField.NAME]: new FormControl(null, [Validators.required, Validators.minLength(4)]),
-    [TodoField.IS_DONE]: new FormControl(false),
+    [TodoField.IS_COMPLETED]: new FormControl(false),
   });
 
   constructor(
@@ -33,50 +33,46 @@ export class TodoFormComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.pipe(
       map((params: Params) => {
-        return params['id'] ? +params['id'] : null
+        return params['id'] ? params['id'] : ''
       })
-    ).subscribe((id: any) => {
-      this.todoService.get(id).subscribe((todo) => {
-        this.todo = todo
+    ).subscribe((id: string) => {
+      this.todoService.get(id).subscribe((response: ApiResponse<Todo>) => {
+        this.setFormValue(response.data);
       })
       this.id = id; // pengecekan sweetAlert2
-      this.setFormValue();
     });
   }
 
   onSubmitTodo(): void {
     const todo: Todo = this.todoForm.value;
-    if (!todo.isDone) {
-      todo.isDone = false;
+    if (!todo.isCompleted) {
+      todo.isCompleted = false;
     }
-    this.todoService.save(todo).subscribe();
-    if (this.id) {
-      Swal.fire({
-        icon: 'success',
-        title: `Todo ${todo.name} telah di ubah!`,
-        showConfirmButton: false,
-        timer: 1500
-      })
-    } else {
-      Swal.fire({
-        icon: 'success',
-        title: `Todo ${todo.name} telah di tambah!`,
-        showConfirmButton: false,
-        timer: 1500
-      });
-    }
-    this.todoForm.reset();
-    this.router.navigateByUrl(TODO_URL);
+    this.todoService.save(todo).subscribe(() => {
+      if (this.id) {
+        Swal.fire({
+          icon: 'success',
+          title: `Todo ${todo.name} telah di ubah!`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+      } else {
+        Swal.fire({
+          icon: 'success',
+          title: `Todo ${todo.name} telah di tambah!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+      this.router.navigateByUrl(TODO_URL);
+      this.todoForm.reset();
+    });
   }
 
-  setFormValue(): void {
-    if (this.todo) {
-      this.todoForm.get(TodoField.ID)?.setValue(this.todo.id);
-      this.todoForm.get(TodoField.NAME)?.setValue(this.todo.name);
-      this.todoForm.get(TodoField.IS_DONE)?.setValue(this.todo.isDone);
-    } else if (this.todoForm) {
-      this.todoForm.reset()
-    }
+  setFormValue(todo: Todo): void {
+    this.todoForm.get(TodoField.ID)?.setValue(todo.id);
+    this.todoForm.get(TodoField.NAME)?.setValue(todo.name);
+    this.todoForm.get(TodoField.IS_COMPLETED)?.setValue(todo.isCompleted);
   }
 
   isFieldValid(todoField: TodoField): string {

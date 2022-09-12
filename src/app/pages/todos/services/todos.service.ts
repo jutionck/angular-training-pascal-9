@@ -1,104 +1,81 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { ApiResponse } from 'src/app/shared/models/response.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { Todo } from '../model/todo.model';
 
-const TODO_KEY = 'todos'
+const TODO_URL = '/api/v1/todos';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodosService {
-  todos: Todo[] = [];
+  private subject: Subject<boolean> = new Subject<boolean>();
   constructor(
-    private readonly sessionService: SessionService
+    private readonly http: HttpClient,
+    private readonly sessionService: SessionService,
   ) { }
 
-  list(): Observable<Todo[]> {
-    return new Observable<Todo[]>((observer: Observer<Todo[]>) => {
-      try {
-        const todoValue: string = this.sessionService.get(TODO_KEY);
-        const todos: Todo[] = todoValue ? JSON.parse(todoValue) : [
-          {
-            id: 1,
-            name: 'Makan',
-            isDone: false
-          }];
-        this.todos = todos;
-        this.updateSessionStorage();
-        observer.next(todos);
-      } catch (err: any) {
-        observer.error(err.message)
-      }
-      observer.complete();
-    });
+  list(): Observable<ApiResponse<Todo[]>> {
+    try {
+      const headers = this.setHeaders();
+      return this.http.get<ApiResponse<Todo[]>>(TODO_URL, { headers })
+    } catch (error: any) {
+      console.log(error);
+      return error;
+    }
   }
 
   checked(todo: Todo): Observable<void> {
-    return new Observable<void>((observer: Observer<void>) => {
-      try {
-        this.todos.forEach((item) => {
-          if (item.id === todo.id) item.isDone = !item.isDone;
-          this.updateSessionStorage();
-          observer.next();
-        })
-      } catch (err: any) {
-        observer.error(err.message)
+    try {
+      const headers = this.setHeaders();
+      todo.isCompleted = !todo.isCompleted;
+      const { id, name, isCompleted } = todo;
+      return this.http.put<void>(TODO_URL, { id, name, isCompleted }, { headers })
+    } catch (error: any) {
+      return error;
+    }
+  }
+
+  remove(id: string): Observable<ApiResponse<string>> {
+    try {
+      const headers = this.setHeaders();
+      return this.http.delete<ApiResponse<string>>(TODO_URL + `/${id}`, { headers })
+    } catch (error: any) {
+      return error;
+    }
+  }
+
+  save(todo: Todo): Observable<ApiResponse<Todo>> {
+    try {
+      const headers = this.setHeaders();
+      if (todo.id) {
+        return this.http.put<ApiResponse<Todo>>(TODO_URL, todo, { headers })
       }
-      observer.complete();
+      return this.http.post<ApiResponse<Todo>>(TODO_URL, todo, { headers })
+    } catch (error: any) {
+      return error;
+    }
+  }
+
+  get(id: string): Observable<ApiResponse<Todo>> {
+    try {
+      const headers = this.setHeaders();
+      return this.http.get<ApiResponse<Todo>>(TODO_URL + `/${id}`, { headers })
+    } catch (error: any) {
+      return error;
+    }
+  }
+
+  private setHeaders(): HttpHeaders {
+    const token: string = this.sessionService.get('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
   }
 
-  remove(id: number): Observable<void> {
-    return new Observable<void>((observer: Observer<void>) => {
-      try {
-        const todoId: number = this.todos.findIndex(item => item.id == id);
-        this.todos.splice(todoId, 1);
-        this.updateSessionStorage();
-        observer.next();
-      } catch (err: any) {
-        observer.error(err.message)
-      }
-      observer.complete();
-    });
-  }
-
-  save(todo: Todo): Observable<void> {
-    return new Observable<void>((observer: Observer<void>) => {
-      try {
-        if (!todo.id) {
-          todo.id = this.todos.length + 1;
-          this.todos.push(todo);
-        } else {
-          this.todos = this.todos.map((item) => {
-            if (item.id === todo.id) {
-              item = { ...item, ...todo }
-            }
-            return item;
-          });
-        }
-        this.updateSessionStorage();
-        observer.next();
-      } catch (err: any) {
-        observer.error(err.message)
-      }
-      observer.complete();
-    });
-  }
-
-  get(id: number): Observable<Todo> {
-    return new Observable<Todo>((observer: Observer<Todo>) => {
-      try {
-        const todo: Todo = this.todos.find((todo) => todo.id === id) as Todo;
-        observer.next(todo);
-      } catch (err: any) {
-        observer.error(err.message)
-      }
-      observer.complete();
-    });
-  }
-
-  private updateSessionStorage(): void {
-    this.sessionService.set(TODO_KEY, JSON.stringify(this.todos))
+  public notify(): Observable<boolean> {
+    return this.subject.asObservable();
   }
 }

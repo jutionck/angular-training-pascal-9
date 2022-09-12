@@ -9,7 +9,7 @@
             class="form-check-input"
             id="{{ todo.id }}_checkbox"
             [value]="todo.id"
-            [checked]="todo.isDone"
+            [checked]="todo.isCompleted"
             (click)="onCheckTodo(todo)"
           />
           &nbsp;
@@ -31,7 +31,15 @@
         </div>
       </li>
     </ng-container>
-    <p class="todo-list" *ngIf="!todos || (todos && todos.length === 0)">
+    <div class="d-flex justify-content-center m-5" *ngIf="isLoading">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <p
+      class="todo-list"
+      *ngIf="!todos || (!isLoading && todos && todos.length === 0)"
+    >
       Data todo kosong
     </p>
   </ul>
