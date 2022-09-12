@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs';
+import { ApiResponse } from 'src/app/shared/models/response.model';
+import { SessionService } from 'src/app/shared/services/session.service';
 import Swal from 'sweetalert2';
 import { LoginField } from '../models/login-field.model';
-import { LoginToken } from '../models/login.model';
+import { LoginResponse } from '../models/login.model';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -19,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly sessionService: SessionService,
   ) { }
 
   buildForm(): void {
@@ -40,9 +43,10 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     const payload = this.loginForm.value;
     this.authService.login(payload).subscribe({
-      next: (token: LoginToken | null) => {
-        if (token) {
-          this.handleLogin(token)
+      next: (response: ApiResponse<LoginResponse>) => {
+        const { accessToken } = response.data;
+        if (accessToken) {
+          this.handleLogin(accessToken)
         } else {
           Swal.fire({
             icon: 'error',
@@ -55,7 +59,8 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  private handleLogin(token: LoginToken): void {
+  private handleLogin(token: string): void {
+    this.sessionService.set('token', token);
     this.activatedRoute.queryParams
       .pipe(map((params) => params['next'] || null))
       .subscribe((next: string = '') => {

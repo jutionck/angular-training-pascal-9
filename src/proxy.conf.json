@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "https://bab7-103-171-31-23.ap.ngrok.io/api/v1/",
+    "logLevel": "debug",
+    "https": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api/v1": ""
+    }
+  }
+}

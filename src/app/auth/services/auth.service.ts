@@ -1,30 +1,21 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, Observer } from "rxjs";
-import { SessionService } from "src/app/shared/services/session.service";
-import { Login, LoginToken } from "../models/login.model";
+import { ApiResponse } from "src/app/shared/models/response.model";
+import { Login, LoginResponse } from "../models/login.model";
 
 const AUTH_KEY = 'token';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private readonly sessionService: SessionService) { }
+  constructor(private readonly http: HttpClient) { }
 
-  login(payload: Login): Observable<LoginToken | null> {
-    return new Observable<LoginToken | null>((observer: Observer<LoginToken | null>) => {
-      try {
-        const { email, password } = payload;
-        if (email === 'admin@gmail.com' && password === 'password') {
-          const token: LoginToken = { token: '12345' };
-          this.sessionService.set(AUTH_KEY, JSON.stringify(token));
-          observer.next(token);
-        } else {
-          observer.next(null);
-        }
-      } catch (error) {
-        observer.error(error);
-      }
-      observer.complete();
-    })
+  login(payload: Login): Observable<ApiResponse<LoginResponse>> {
+    try {
+      return this.http.post<ApiResponse<LoginResponse>>('/api/v1/auth/login', payload)
+    } catch (error) {
+      throw error;
+    }
   }
 }
