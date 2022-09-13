@@ -7,7 +7,6 @@ import { id } from 'date-fns/locale';
 })
 export class DateCustomPipe implements PipeTransform {
   transform(value: string, formatDate: string, locale: Locale = id): string {
-    return format(new Date(), formatDate, { locale });;
+    return format(new Date(), formatDate, { locale });
   }
-
 }
