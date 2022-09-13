@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://bab7-103-171-31-23.ap.ngrok.io/api/v1/",
+    "target": "https://enigma-todo-app.herokuapp.com/api/v1/",
     "logLevel": "debug",
     "https": true,
     "changeOrigin": true,

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,17 +46,17 @@ export class LoginComponent implements OnInit {
     this.authService.login(payload).subscribe({
       next: (response: ApiResponse<LoginResponse>) => {
         const { accessToken } = response.data;
-        if (accessToken) {
-          this.handleLogin(accessToken)
-        } else {
+        this.handleLogin(accessToken);
+      },
+      error: (errorResponse: HttpErrorResponse) => {
+        if (errorResponse.status === 401) {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: 'Email atau Password salah',
           });
         }
-      },
-      error: (error) => console.error(error.message)
+      }
     })
   }
 
@@ -78,5 +79,4 @@ export class LoginComponent implements OnInit {
       return '';
     }
   }
-
 }
