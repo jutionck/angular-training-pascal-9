@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
 
   buildForm(): void {
     this.loginForm = new FormGroup({
-      [LoginField.EMAIL]: new FormControl('', [Validators.required, Validators.email]),
-      [LoginField.PASSWORD]: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      [LoginField.EMAIL]: new FormControl(null, [Validators.required, Validators.email]),
+      [LoginField.PASSWORD]: new FormControl(null, [Validators.required, Validators.minLength(4)]),
     });
   }
 
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
 
   isFieldValid(loginField: LoginField): string {
     const control: AbstractControl = this.loginForm.get(loginField) as AbstractControl;
-    if (control && control.touched && control.invalid) {
+    if (control && control.invalid && control.touched) {
       return 'is-invalid';
     } else if (control && control.valid) {
       return 'is-valid';
